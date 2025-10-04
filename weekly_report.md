@@ -12,11 +12,13 @@ This week I focused on federated learning and read five papers that showed its u
 This week I focused on quantization and the basics of large language models. The *LLM-QAT: Data-Free Quantization Aware Training* paper explained how models can be compressed by lowering the precision of weights, activations, and KV-caches, while still keeping good performance. It used data-free knowledge distillation, where a teacher model makes synthetic data, and quantization-aware training, where the student model learns to work with low-bit numbers. I also watched a simple video that explained PTQ (post-training quantization), QAT, and dynamic quantization, showing how they make models faster, cheaper, and easier to run without powerful GPUs. To build a stronger foundation, I started Chapter 1 of *Build a Large Language Model from Scratch*. It covered what LLMs are, why transformers are important, and how pretraining and finetuning make models generalize to many tasks. Taken together, the paper, video, and book gave me both a practical and theoretical view: I saw how quantization makes models efficient and how LLMs are designed to work in the first place.
 
 
-### Week 3 (Date:   )
+### Week 3 (Date: Sept 22–28, 2025))
+This week I ran my first QAT demo (qat_demo.py) in PyTorch. I trained a small FP32 model with fake quantization layers and converted it to INT8, confirming the Linear layers turned into QuantizedLinear. I also started testing a quick model size comparison (FP32 vs INT8), uploaded my code to the GitHub repo, and continued Flower AI tutorials to prepare for federated learning.
 
 
-### Week 4 (Date:   )
+### Week 4 Date: Sept 29–Oct 5, 2025)
 
+This week I focused on interpreting the QAT demo outputs, especially scale/zero_point values and the training loss. I worked on debugging the FP32 vs INT8 size comparison and saved the run logs to qat_results.txt in my repo. I also registered for the CCDB. Worked on making a flow chart to keep my accountable.
 
 ### Week 5 (Date:   )
 
