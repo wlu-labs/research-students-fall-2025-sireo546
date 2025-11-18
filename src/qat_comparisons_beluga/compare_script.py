@@ -551,7 +551,7 @@ print("• Latency (ms/sample) – How fast each prediction runs (lower = faster
 
 
 
-#  conclusion message
+#  conclusion message(fix this to refelct new chnages on the summary table)
 
 print("\n Conclusion:")
 
