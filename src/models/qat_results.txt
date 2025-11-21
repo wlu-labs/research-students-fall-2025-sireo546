@@ -1,0 +1,11 @@
+Training with fake quantization...
+Epoch 1: loss = 2.4554
+Epoch 2: loss = 2.2669
+Epoch 3: loss = 2.4451
+
+Converted to INT8 model:
+SimpleNet(
+  (fc1): QuantizedLinear(in_features=784, out_features=128, scale=0.014924217015504837, zero_point=135, qscheme=torch.per_tensor_affine)
+  (relu): ReLU()
+  (fc2): QuantizedLinear(in_features=128, out_features=10, scale=0.004764455836266279, zero_point=130, qscheme=torch.per_tensor_affine)
+)
