@@ -52,5 +52,5 @@ All final experiments were run on **Rorqual (CPU node)** using **Python 3.10** a
 │       └── trafficdata.csv                # Copy of the dataset used by the script
 ├── __init__.py
 ├── main.py                                # Entry point – runs the full comparison
-├── literature.md                          # Notes / related work summary
+├── literature.md                          # Notes / related work summary(all updates are on wiki)
 └── requirements.txt                       # Python dependencies
