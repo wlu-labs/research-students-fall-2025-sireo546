@@ -2,49 +2,59 @@
 Project Instructions
 ==============================
 
-This repo contains the instructions for a machine learning project. 
+
 
 **Do Not Forget to mention the Python Version being used and complete the requirements.txt fil**
 
-Project Organization
-------------
+The goal is to compare several quantization methods on a small neural network:
 
-    ├── README.md          <- The top-level README for describing highlights for using this ML project.
-    │
-    ├── notebooks          <- Jupyter notebooks. Naming convention should snake case.
-    │
-    ├── reports            
-    │   └── figures        <- Generated graphics and figures to be used in reporting
-    │   └── README.md      <- Youtube Video Link
-    │   └── final_project_report <- final report .pdf format and supporting files
-    │   └── presentation   <-  final power point presentation 
-    |
-    ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-    │                         generated with `pip freeze > requirements.txt`
-    │
-    ├── src                <- Source code for use in this project.
-       ├── __init__.py    <- Makes src a Python module
-       ├── data
-       │   ├── processed      <- The final, canonical data sets for modeling.
-       │   └── raw            <- The original, immutable data dump.
-       │
-       ├── preprocessing_data           <- Scripts to download or generate data and pre-process the data
-       │   └── pre-processing.py
-       │
-       ├── feature_engineering       <- Scripts to turn raw data into features for modeling
-       │   └── build_features.py
-       │
-       ├── models         <- Scripts to train models and then use trained models to make
-       │   │                 predictions
-       │   ├── predict_model.py
-       │   └── train_model.py
-       │
-       └── visualization  <- Scripts to create exploratory and results oriented visualizations
-       │   └── visualize.py  
-       │
-       └── main.py  <- main script to run all the models and call appropriate functions
-       |
-       ├── LICENSE  <- LICENSE terms to be included for the use of the source code distribution
+- **FP32 baseline**
+- **PTQ** – Post Training Quantization  
+- **QAT** – Quantization Aware Training  
+- **GPTQ (simulated)** – Gradient-based PTQ (size/latency simulated in this script)
 
+All final experiments were run on **Rorqual (CPU node)** using **Python 3.10** and **PyTorch 2.6.0** with the `fbgemm` quantization backend.
 
+---
 
+## Repository Structure
+
+```text
+.
+├── src/
+│   ├── data/
+│   │   └── trafficdata.csv                # Tabular traffic dataset used in all experiments
+│   │
+│   ├── models/                          # Original QAT demo code from the project
+    │   ├── diagram_qat.py
+│   │   ├── predict_model.py
+│   │   ├── qat_demo.py
+│   │   ├── qat_results.txt  
+│   │   └── train_model.py
+│   │
+│   ├── qat_comparisons/                   # **Older local experiments (Beluga / Mac)**
+│   │   ├── base_fp32.pt
+        ├── compare_script.py
+│   │   ├── ptq_model.pt
+│   │   ├── qat_model.pt
+│   │   ├── trafficdata.csv
+│   │   └── initial / updated result logs
+│   │
+│   ├── qat_comparisons_beluga/            # **Archived experiments from Beluga**
+│   │   ├── best results so far.txt        #latest result
+│   │   ├── compare_script.py
+│   │   ├── results                        #previous results
+│   │   └── results beluga.jpg             #previous results
+│   │
+│   └── quantization_FINAL_rorqual/        # ✅ **Final code + results (Rorqual)**
+│     
+        ├── base_fp32.pt                   # Saved FP32 model
+│       ├── compare_script.py              # Core implementation (PTQ, QAT, GPTQ)
+        ├── final_results_rorqual.txt      # Console output from the best Rorqual run
+│       ├── ptq_model.pt                   # Saved PTQ model
+│       ├── qat_model.pt                   # Saved QAT model
+│       └── trafficdata.csv                # Copy of the dataset used by the script
+├── __init__.py
+├── main.py                                # Entry point – runs the full comparison
+├── literature.md                          # Notes / related work summary
+└── requirements.txt                       # Python dependencies
