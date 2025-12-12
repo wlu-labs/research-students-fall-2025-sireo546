@@ -2,10 +2,6 @@
 Project Instructions
 ==============================
 
-
-
-**Do Not Forget to mention the Python Version being used and complete the requirements.txt fil**
-
 The goal is to compare several quantization methods on a small neural network:
 
 - **FP32 baseline**
