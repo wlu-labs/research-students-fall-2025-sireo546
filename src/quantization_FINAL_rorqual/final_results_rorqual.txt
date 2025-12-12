@@ -1,0 +1,72 @@
+(venv) [rameen62@rc12531 rameen]$ python compare_script.py
+Using device: cpu
+Quantization engine set to fbgemm (x86 CPU).
+Epoch 1: loss = 1.0685
+Epoch 2: loss = 1.0527
+Epoch 3: loss = 1.0373
+Epoch 4: loss = 1.0222
+Epoch 5: loss = 1.0074
+Epoch 6: loss = 0.9929
+Epoch 7: loss = 0.9788
+Epoch 8: loss = 0.9649
+Epoch 9: loss = 0.9514
+Epoch 10: loss = 0.9383
+Epoch 11: loss = 0.9254
+Epoch 12: loss = 0.9128
+Epoch 13: loss = 0.9006
+Epoch 14: loss = 0.8886
+Epoch 15: loss = 0.8769
+
+FP32 Accuracy: 62.98%  | Size: 0.00 MB
+
+PTQ  → Acc: 62.82% | Latency: 223.82 ms | Size: 0.004135 MB
+
+[QAT] epoch 1/20: loss=1.0617
+[QAT] epoch 2/20: loss=1.0441
+[QAT] epoch 3/20: loss=1.0271
+[QAT] epoch 4/20: loss=1.0117
+[QAT] epoch 5/20: loss=0.9963
+[QAT] epoch 6/20: loss=0.9813
+[QAT] epoch 7/20: loss=0.9672
+[QAT] epoch 8/20: loss=0.9529
+[QAT] epoch 9/20: loss=0.9388
+[QAT] epoch 10/20: loss=0.9262
+[QAT] epoch 11/20: loss=0.9135
+[QAT] epoch 12/20: loss=0.9008
+[QAT] epoch 13/20: loss=0.8890
+[QAT] epoch 14/20: loss=0.8782
+[QAT] epoch 15/20: loss=0.8669
+==> Disabled observers and froze BN stats (if any) at epoch 16
+[QAT] epoch 16/20: loss=0.8561
+[QAT] epoch 17/20: loss=0.8463
+[QAT] epoch 18/20: loss=0.8365
+[QAT] epoch 19/20: loss=0.8278
+[QAT] epoch 20/20: loss=0.8196
+
+QAT → Acc: 66.40% | Latency: 4.01 ms | Size: 0.00603 MB
+
+GPTQ → Acc: 61.98% | Latency: 179.06 ms | Size: 0.00234 MB
+
+=== Quantization Comparison Summary ===
+              Method  Accuracy (%)  Size (MB)  Latency (ms/sample)
+     FP32 (Original)      62.97771    0.00468              2.94350
+ PTQ (Post-Training)      62.81847    0.00413            223.82010
+QAT (Aware Training)      66.40127    0.00603              4.01460
+ GPTQ (Gradient PTQ)      61.97771    0.00234            179.05608
+
+ Explanation of Columns:
+• Accuracy (%) – How correct the model's predictions are.
+• Size (MB) – How much memory/storage the model file takes.
+• Latency (ms/sample) – How fast each prediction runs (lower = faster).
+
+ Conclusion:
+In this experiment, QAT achieved slightly higher accuracy than both the FP32 baseline and PTQ, while keeping a similar model size and latency close to the original FP32 model.
+PTQ and the simulated GPTQ setup performed competitively and produced smaller model sizes, but in this run they did not surpass QAT in accuracy.
+
+Since the CPU backend on Rorqual does not support executing the fully converted int8 QAT model, the reported QAT accuracy reflects the model’s performance immediately before conversion 
+(using its fake-quantized weights). This still captures how well the model adapted to quantization during training. PTQ accuracy in contrast is obtained from the fully converted 
+int8 model.
+
+
+All experiments were run on a Rorqual CPU node using PyTorch 2.6.0 and the fbgemm quantization backend.
+(venv) [rameen62@rc12531 rameen]$ 

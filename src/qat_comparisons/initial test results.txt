@@ -1,0 +1,78 @@
+rameenamin@Mac QAT comparisions % python3 compare_script.py
+Quantization engine set to qnnpack (Apple Silicon / ARM64).
+
+Using device: cpu
+
+Epoch 1: loss = 1.0280
+Epoch 2: loss = 1.0095
+Epoch 3: loss = 0.9916
+Epoch 4: loss = 0.9744
+Epoch 5: loss = 0.9578
+Epoch 6: loss = 0.9419
+Epoch 7: loss = 0.9265
+Epoch 8: loss = 0.9118
+
+FP32 Accuracy: 77.07%  | Size: 0.01 MB
+/Users/rameenamin/QAT comparisions/compare_script.py:298: DeprecationWarning: torch.ao.quantization is deprecated and will be removed in 2.10. 
+For migrations of users: 
+1. Eager mode quantization (torch.ao.quantization.quantize, torch.ao.quantization.quantize_dynamic), please migrate to use torchao eager mode quantize_ API instead 
+2. FX graph mode quantization (torch.ao.quantization.quantize_fx.prepare_fx,torch.ao.quantization.quantize_fx.convert_fx, please migrate to use torchao pt2e quantization API instead (prepare_pt2e, convert_pt2e) 
+3. pt2e quantization has been migrated to torchao (https://github.com/pytorch/ao/tree/main/torchao/quantization/pt2e) 
+see https://github.com/pytorch/ao/issues/2259 for more details
+  ptq_model = quantize_dynamic(base_cpu, {nn.Linear}, dtype=torch.qint8)# Save the quantized model to a file
+[W1031 15:42:18.074563000 qlinear_dynamic.cpp:251] Warning: Currently, qnnpack incorrectly ignores reduce_range when it is set to true; this may change in a future release. (function operator())
+
+PTQ  → Acc: 77.31% | Latency: 0.00 ms | Size: 0.00 MB
+/Users/rameenamin/QAT comparisions/compare_script.py:365: DeprecationWarning: torch.ao.quantization is deprecated and will be removed in 2.10. 
+For migrations of users: 
+1. Eager mode quantization (torch.ao.quantization.quantize, torch.ao.quantization.quantize_dynamic), please migrate to use torchao eager mode quantize_ API instead 
+2. FX graph mode quantization (torch.ao.quantization.quantize_fx.prepare_fx,torch.ao.quantization.quantize_fx.convert_fx, please migrate to use torchao pt2e quantization API instead (prepare_pt2e, convert_pt2e) 
+3. pt2e quantization has been migrated to torchao (https://github.com/pytorch/ao/tree/main/torchao/quantization/pt2e) 
+see https://github.com/pytorch/ao/issues/2259 for more details
+  qat_prep = prepare_qat(qat_model)
+/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/torch/ao/quantization/observer.py:246: UserWarning: Please use quant_min and quant_max to specify the range for observers.                     reduce_range will be deprecated in a future release of PyTorch.
+  warnings.warn(
+QAT epoch 1: loss = 1.0191
+QAT epoch 2: loss = 1.0045
+QAT epoch 3: loss = 0.9884
+/Users/rameenamin/QAT comparisions/compare_script.py:404: DeprecationWarning: torch.ao.quantization is deprecated and will be removed in 2.10. 
+For migrations of users: 
+1. Eager mode quantization (torch.ao.quantization.quantize, torch.ao.quantization.quantize_dynamic), please migrate to use torchao eager mode quantize_ API instead 
+2. FX graph mode quantization (torch.ao.quantization.quantize_fx.prepare_fx,torch.ao.quantization.quantize_fx.convert_fx, please migrate to use torchao pt2e quantization API instead (prepare_pt2e, convert_pt2e) 
+3. pt2e quantization has been migrated to torchao (https://github.com/pytorch/ao/tree/main/torchao/quantization/pt2e) 
+see https://github.com/pytorch/ao/issues/2259 for more details
+  qat_int8 = convert(qat_prep.eval())
+
+[Note] Real QAT int8 ops not supported on macOS — using pre-conversion model for latency.
+
+[Note] Real QAT int8 ops not supported on macOS — using pre-conversion model for latency.
+
+QAT → Acc: 60.99% | Latency: 0.00 ms | Size: 0.01 MB
+
+GPTQ → Acc: 76.07% | Latency: 0.00 ms | Size: 0.00 MB
+
+=== Quantization Comparison Summary ===
+              Method  Accuracy (%)  Size (MB)  Latency (ms/sample)
+     FP32 (Original)         77.07       0.01                 0.00
+ PTQ (Post-Training)         77.31       0.00                 0.00
+QAT (Aware Training)         60.99       0.01                 0.00
+ GPTQ (Gradient PTQ)         76.07       0.00                 0.00
+
+ Explanation of Columns:
+• Accuracy (%) – How correct the model's predictions are.
+• Size (MB) – How much memory/storage the model file takes.
+• Latency (ms/sample) – How fast each prediction runs (lower = faster).
+
+ Interpretation Summary:
+- FP32: Highest accuracy, but large and slow.
+- PTQ: Very small and fast, but can lose some accuracy.
+- QAT: Keeps most of the accuracy while still smaller and faster.
+- GPTQ: Best balance overall — small size, low latency, and accuracy close to FP32.
+
+ Conclusion:
+This experiment shows how different quantization methods trade off between accuracy and efficiency.
+For edge devices, GPTQ or QAT would be ideal because they reduce size and latency
+while keeping accuracy high enough for reliable traffic predictions.
+
+ Test run completed successfully on CPU (local test version).
+rameenamin@Mac QAT comparisions % 
